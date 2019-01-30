@@ -3,20 +3,30 @@
 
 #include "geometry.h"
 
-struct Material {
-    Material(const Vec3f& color) : diffuse_color(color) {}
-    Material() : diffuse_color() {}
+struct Light {
+    Vec3f position;
+    float intensity;
 
-
-    Vec3f diffuse_color;
+    Light(const Vec3f& p, float i) : position(p), intensity(i) {}
+    Light() : position(), intensity() {}
 };
 
+struct Material {
+    Vec2f albedo;
+    Vec3f diffuse_color;
+    float specular;
+    
+
+    Material(const Vec2f& a, const Vec3f& color, const float& s) : albedo(a), diffuse_color(color), specular(s) {}
+    Material() : albedo(), diffuse_color(), specular() {}
+};
 
 struct Sphere {
     Vec3f center;
     float radius;
+    Material material;
 
-    Sphere(const Vec3f& c, const float& r) : center(c), radius(r) {}
+    Sphere(const Vec3f& c, const float& r, const Material& m) : center(c), radius(r), material(m) {}
 
     bool ray_intersect(const Vec3f& origin, const Vec3f& direction, float &t0) const {
         // Calculate the vector from origin to center of circle
